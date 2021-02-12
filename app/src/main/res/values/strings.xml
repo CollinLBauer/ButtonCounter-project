@@ -1,3 +1,16 @@
 <resources>
-    <string name="app_name">Button-counter</string>
+    <string name="app_name">Button Counter</string>
+    <string name="counter_text">Counter</string>
+    <string name="button_increment">\u2795</string>
+    <string name="button_decrement">\u2796</string>
+    <string name="button_reset">Reset</string>
+    <string-array name="doge">
+        <item>wow</item>
+        <item>such number</item>
+        <item>many big</item>
+        <item>goes up</item>
+        <item>very plus</item>
+        <item>much count</item>
+        <item>vroom</item>
+    </string-array>
 </resources>
