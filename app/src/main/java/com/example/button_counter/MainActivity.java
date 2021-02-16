@@ -21,11 +21,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button buttonRes;
     private int counter = 0;
     private TextView counterView;
-
-    private int doge_chance;
-    private TextView doge;
-    private Random rng;
     private ConstraintLayout constraintLayout;
+
+    private Random rng;
+
+    private TextView doge;
+    private int doge_chance;
+    private int doge_rot;
+    private float doge_off_hz;
+    private float doge_off_vt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,14 +78,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void triggerDoge(){
-        String[] dogeArray = getResources().getStringArray(R.array.doge);
-        doge.setRotation(rng.nextInt(100) - 50);
-
-        doge.setText(dogeArray[rng.nextInt(dogeArray.length)]);
         ConstraintSet newSet = new ConstraintSet();
+        String[] dogeArray = getResources().getStringArray(R.array.doge);
+        doge.setText(dogeArray[rng.nextInt(dogeArray.length)]);
+
+
+        doge_rot = rng.nextInt(100) - 50;
+        doge_off_hz = (float) (0.1 + rng.nextFloat() * 0.8);
+        doge_off_vt = (float) (0.6 + rng.nextFloat() * 0.3);
+
+        doge.setRotation(doge_rot);
+        newSet.setHorizontalBias(doge.getId(), doge_off_hz);
+        newSet.setVerticalBias(doge.getId(), doge_off_vt);
+
         newSet.clone(constraintLayout);
-        newSet.setHorizontalBias(doge.getId(), (float) (0.1 + rng.nextFloat() * 0.8));
-        newSet.setVerticalBias(doge.getId(), (float) (0.6 + rng.nextFloat() * 0.3));
         newSet.applyTo(constraintLayout);
         doge_chance = 10 + rng.nextInt(7);
     }
@@ -98,6 +108,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onStart() {
         super.onStart();
         Log.i(TAG, "onStart() triggered");
+
     }
 
     @Override
@@ -130,6 +141,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Log.i(TAG, "onDestroy() triggered");
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("count", counter);
+
+        outState.putInt("doge_chance", doge_chance);
+        outState.putInt("doge_rot", doge_rot);
+        outState.putFloat("doge_off_hz", doge_off_hz);
+        outState.putFloat("doge_off_vt", doge_off_vt);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        counter = savedInstanceState.getInt("count");
+
+        doge_chance = savedInstanceState.getInt("doge_chance");
+        doge_rot = savedInstanceState.getInt("doge_rot");
+        doge_off_hz = savedInstanceState.getFloat("doge_off_hz");
+        doge_off_vt = savedInstanceState.getFloat("doge_off_vt");
+
+        ConstraintSet newSet = new ConstraintSet();
+        doge.setRotation(doge_rot);
+        newSet.setHorizontalBias(doge.getId(), doge_off_hz);
+        newSet.setVerticalBias(doge.getId(), doge_off_vt);
+        newSet.clone(constraintLayout);
+        newSet.applyTo(constraintLayout);
+
+    }
     /* end lifecycle code */
 
 
