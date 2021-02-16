@@ -82,17 +82,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String[] dogeArray = getResources().getStringArray(R.array.doge);
         doge.setText(dogeArray[rng.nextInt(dogeArray.length)]);
 
-
         doge_rot = rng.nextInt(100) - 50;
-        doge_off_hz = (float) (0.1 + rng.nextFloat() * 0.8);
-        doge_off_vt = (float) (0.6 + rng.nextFloat() * 0.3);
-
         doge.setRotation(doge_rot);
-        newSet.setHorizontalBias(doge.getId(), doge_off_hz);
-        newSet.setVerticalBias(doge.getId(), doge_off_vt);
 
         newSet.clone(constraintLayout);
+        doge_off_hz = (float) (0.1 + rng.nextFloat() * 0.8);
+        doge_off_vt = (float) (0.6 + rng.nextFloat() * 0.3);
+        newSet.setHorizontalBias(doge.getId(), doge_off_hz);
+        newSet.setVerticalBias(doge.getId(), doge_off_vt);
         newSet.applyTo(constraintLayout);
+
         doge_chance = 10 + rng.nextInt(7);
     }
 
@@ -164,9 +163,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         ConstraintSet newSet = new ConstraintSet();
         doge.setRotation(doge_rot);
+        newSet.clone(constraintLayout);
         newSet.setHorizontalBias(doge.getId(), doge_off_hz);
         newSet.setVerticalBias(doge.getId(), doge_off_vt);
-        newSet.clone(constraintLayout);
         newSet.applyTo(constraintLayout);
 
     }
